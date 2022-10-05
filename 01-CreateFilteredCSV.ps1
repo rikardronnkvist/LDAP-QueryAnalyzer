@@ -129,11 +129,11 @@ $eventFiles | ForEach-Object ($_) {
 		$newEvent | Add-Member -MemberType NoteProperty -Name LDAPServer        -force -Value $Event.MachineName
 		$newEvent | Add-Member -MemberType NoteProperty -Name TimeGenerated     -force -Value $Event.TimeCreated
 		$newEvent | Add-Member -MemberType NoteProperty -Name ClientIP          -force -Value (Get-ClientIPorPort($Event.Properties[4].Value,'IP'))
+		$newEvent | Add-Member -MemberType NoteProperty -Name ClientPort        -force -Value (Get-ClientIPorPort($Event.Properties[4].Value,'Port'))
 		$newEvent | Add-Member -MemberType NoteProperty -Name StartingNode      -force -Value $Event.Properties[0].Value
 		$newEvent | Add-Member -MemberType NoteProperty -Name LdapFilter        -force -Value $Event.Properties[1].Value
 
         If ($gatherExtraEventData) {
-		    $newEvent | Add-Member -MemberType NoteProperty -Name ClientPort -force -Value (Get-ClientIPorPort($Event.Properties[4].Value,'Port'))
 		    $newEvent | Add-Member -MemberType NoteProperty -Name SearchScope -force -Value $Event.Properties[5].Value
 		    $newEvent | Add-Member -MemberType NoteProperty -Name AttributeSelection -force -Value $Event.Properties[6].Value
 		    $newEvent | Add-Member -MemberType NoteProperty -Name ServerControls -force -Value $Event.Properties[7].Value
