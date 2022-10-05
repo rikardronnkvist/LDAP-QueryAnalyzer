@@ -164,7 +164,7 @@ $eventFiles | ForEach-Object ($_) {
 
     If ($gatherExtraEventData) {
         $csvFileName = Join-Path $EventLogPath "$($_.BaseName) - 1644-Events.csv"
-    } else {}
+    } else {
         $csvFileName = Join-Path $EventLogPath "$($_.BaseName) - 1644-Events-Filtered.csv"
     }
 
@@ -196,7 +196,7 @@ $csvFilesStartTime = Get-Date
 If ($gatherExtraEventData) {
     Write-Info "Processing CSV-files"
     $csvFiles = Get-ChildItem -Path $EventLogPath -Filter "*1644-Events.csv" | Sort-Object Name
-} else {}
+} else {
     Write-Info "Processing filtered CSV-files"
     $csvFiles = Get-ChildItem -Path $EventLogPath -Filter "*1644-Events-Filtered.csv" | Sort-Object Name
 }
