@@ -1,9 +1,9 @@
 [CmdLetBinding()]
 PARAM (
     [String] $EventLogPath = "C:\GIT\LDAP-QueryAnalyzer",
-    [String] $CompleteCSVFileName = "_Filtered-events.csv",
+    [String] $CompleteCSVFileName = "_1644-Events.csv",
     [bool] $gatherExtraEventData = $false,  # Set to $true if you want to analyze LDAP query performance in Excel
-    [String[]] $filterClientIP = @(
+    [String[]] $filterClientIP = @(         # Filters are disabled if you gather extra event data
         "SAM",
         "Internal",
         "KCC",
@@ -147,17 +147,26 @@ $eventFiles | ForEach-Object ($_) {
 		    $newEvent | Add-Member -MemberType NoteProperty -Name DirtyPagesModified -force -Value $Event.Properties[13].Value
 		    $newEvent | Add-Member -MemberType NoteProperty -Name SearchTimeMS -force -Value $Event.Properties[14].Value
 		    $newEvent | Add-Member -MemberType NoteProperty -Name AttributesPreventingOptimization -force -Value $Event.Properties[15].Value
-        }
 
-        if (! (Test-Filters -eventToCheck $newEvent) ) {
+            # Do not filter rows when adding extra data
             $csvExport += $newEvent
             $addedRows ++
+        } else {
+            if (! (Test-Filters -eventToCheck $newEvent) ) {
+                $csvExport += $newEvent
+                $addedRows ++
+            }
         }
+
         $row ++
 	}
     Write-Progress -Activity "Processing events" -ParentId 1 -Id 2 -Completed
 
-    $csvFileName = Join-Path $EventLogPath "$($_.BaseName) - Filtered.csv"
+    If ($gatherExtraEventData) {
+        $csvFileName = Join-Path $EventLogPath "$($_.BaseName) - 1644-Events.csv"
+    } else {}
+        $csvFileName = Join-Path $EventLogPath "$($_.BaseName) - 1644-Events-Filtered.csv"
+    }
 
     Write-Info "   Export $( ($csvExport | Measure-Object).Count ) rows to CSV - $($csvFileName)"
     $csvExport | Export-Csv -Path $csvFileName -NoTypeInformation -Encoding UTF8 -Force
@@ -184,8 +193,15 @@ Write-Info ""
 
 $csvFilesStartTime = Get-Date
 
-Write-Info "Processing filtered CSV-files"
-$csvFiles = Get-ChildItem -Path $EventLogPath -Filter "*Filtered.csv" | Sort-Object Name
+If ($gatherExtraEventData) {
+    Write-Info "Processing CSV-files"
+    $csvFiles = Get-ChildItem -Path $EventLogPath -Filter "*1644-Events.csv" | Sort-Object Name
+} else {}
+    Write-Info "Processing filtered CSV-files"
+    $csvFiles = Get-ChildItem -Path $EventLogPath -Filter "*1644-Events-Filtered.csv" | Sort-Object Name
+}
+
+
 $csvMb = [math]::Round(($csvFiles | Measure-Object -Property Length -Sum).Sum / 1MB)
 $csvFileNo = 1
 

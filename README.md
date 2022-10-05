@@ -29,7 +29,7 @@ You might want to add some extra MB's to the size of the log since this is verbo
 - Copy the EVTX-files you want to process to a directory (on a powerfull machine).
 - Specify that directory as the parameter **$EventLogPath** to the script.
 - Run the script **01-CreateFilteredCSV.ps1** (might be a good idea to test with different PowerShell versions and in ISE to get the best performance)
-- Now you will end up with CSV-files for each EVTX-file and a summary-file named ***_Filtered-events.csv***
+- Now you will end up with CSV-files for each EVTX-file and a summary-file named ***_1644-Events.csv***
 - The summary-file is easy to import into Excel, and in Excel you can create a Pivot Table to analyze what sources and queries you have towards the domain controllers.
 
 ### Filtering
@@ -50,7 +50,7 @@ Part 2 of the script ***02-CreateExcel.ps1*** can be used to create a spreadshee
 
 ***Important*** If you want to use Part 2 you need to set ***$gatherExtraEventData*** in the first script to ***$true*** before you run it (will take some extra time to run the script)
 
-When you have the new ***_Filtered-events.csv*** with extra event data you can run ***02-CreateExcel.ps1*** to create the file ***_1644Analysis.xlsx***
+When you have the new ***_1644-Events.csv*** with extra event data you can run ***02-CreateExcel.ps1*** to create the file ***_1644-Analysis.xlsx***
 
 
 ***FYI:*** The script ***02-CreateExcel.ps1*** is not as refined as part 1 so bugs and problems are mostly from the original script.
