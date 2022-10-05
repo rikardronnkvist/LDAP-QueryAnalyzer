@@ -1,8 +1,9 @@
 # LDAP-QueryAnalyzer
 
-The DC 1466-events can be used to monitor LDAP-traffic and are mostly used to find "bad" queries.
+The DC 1644-events can be used to monitor LDAP-traffic and are mostly used to find "bad" queries.
 
-The use-case forthis version of the script is for us to be OK with a decomission of some Domain Controllers. The script will gather all queries to the DC and export them to a CSV-file.
+The use-case for this version of the script is for us to be OK with a decomission of some Domain Controllers.
+The script will gather all queries to the DC and export them to a CSV-file.
 
 You can that use that CSV to analyze if you might have some system somewhere that have a specifc DC pointed out as an source for LDAP-queries.
 
