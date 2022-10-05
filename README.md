@@ -52,3 +52,5 @@ Part 2 of the script ***02-CreateExcel.ps1*** can be used to create a spreadshee
 
 When you have the new ***_Filtered-events.csv*** with extra event data you can run ***02-CreateExcel.ps1*** to create the file ***_1644Analysis.xlsx***
 
+
+***FYI:*** The script ***02-CreateExcel.ps1*** is not as refined as part 1 so bugs and problems are mostly from the original script.
